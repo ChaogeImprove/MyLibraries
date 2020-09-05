@@ -1,0 +1,34 @@
+#include <dht.h>
+#include <LowPower.h>
+
+#define dataPin 2
+dht DHT; //创建一个DHT对象
+
+void setup() {
+  Serial.begin(9600);
+}
+void loop() {
+  Serial.println("正在从传感器获取数据");
+  delay(200);
+  int readData = DHT.read11(dataPin); 
+
+  float t = DHT.temperature; 
+  float h = DHT.humidity; 
+ 
+  Serial.print("温度 = ");
+  Serial.print(t);
+  Serial.print(" C | ");
+
+  Serial.print("湿度 = ");
+  Serial.print(h);
+  Serial.println(" % ");
+
+  delay(200);
+  Serial.println("Arduino:启动睡眠模式");
+  delay(200);
+  LowPower.idle(SLEEP_8S, ADC_OFF, TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, 
+                 SPI_OFF, USART0_OFF, TWI_OFF);//选择要关闭的部分，以及关闭时间
+  Serial.println("Arduino:结束睡眠！");
+  Serial.println("");
+  delay(200);
+}
